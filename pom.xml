@@ -3,15 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.studentapp</groupId>
     <artifactId>NumberGuessGame</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
     <name>Number Guessing Game</name>
     <url>http://maven.apache.org</url>
-
     <dependencies>
         <!-- Servlet API -->
         <dependency>
@@ -20,7 +17,6 @@
             <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
-
         <!-- JUnit for Testing -->
         <dependency>
             <groupId>junit</groupId>
@@ -28,8 +24,21 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- :white_check_mark: Mockito (Fixes Your Issue) -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.11.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- If using JUnit 5 -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>4.11.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <!-- Compiler Plugin -->
@@ -42,7 +51,6 @@
                     <target>11</target>
                 </configuration>
             </plugin>
-
             <!-- WAR Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
