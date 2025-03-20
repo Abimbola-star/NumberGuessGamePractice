@@ -1,20 +1,20 @@
 pipeline {
     agent any
     environment {
-        SONARQUBE_URL = "http://13.53.123.95:9000/"
+        SONARQUBE_URL = "http://107.20.112.137:9000/"
     }
     stages {
         stage('Checkout Code') {
             steps {
                 script {
-                    git branch: "develop",
-                        url: 'https://github.com/SASowah/numbers-guess-gameApp.git'
+                    git branch: "dev",
+                        url: 'https://github.com/Abimbola-star/NumberGuessGamePractice.git'
                 }
             }
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn clean package'
             }
         }
         stage('Test') {
@@ -25,11 +25,11 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv('sonarqube-token') {
+                    withSonarQubeEnv('SonarQube_Token') {
                         sh '''
-                        mvn sonar:sonar \
-                        -Dsonar.projectKey=NumbersGuessGame \
-                        -Dsonar.projectName="NumbersGuessGame" \
+                        mvn clean verify sonar:sonar \
+                        -Dsonar.projectKey=PipelineJob \
+                        -Dsonar.projectName='PipelineJob' \
                         -Dsonar.host.url=${SONARQUBE_URL} \
                         -Dsonar.login=${SONAR_AUTH_TOKEN}
                         '''
@@ -40,12 +40,7 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
                 script {
-                    deploy adapters: [tomcat7(
-                        credentialsId: 'tomcat-credentials',
-                        path: '',
-                        url: 'http://13.51.165.114:8080/'
-                    )],
-                    contextPath: 'numbers-game', war: 'target/*.war'
+                    deploy adapters: [tomcat7(credentialsId: 'Tomcat_credentials', path: '', url: 'http://54.237.251.55:8080/manager/html')], contextPath: null, war: '**/*.war'
                 }
             }
         }
@@ -54,12 +49,13 @@ pipeline {
         success {
     echo ':white_check_mark: Build, Testing, SonarQube Analysis, and Deployment Successful!'
     emailext(
-        subject: "Build Success: ${env.JOB_NAME}",
-        body: "Build #${env.BUILD_NUMBER} was successful.\nCheck the details at: ${env.BUILD_URL}",
-        to: "georgesomina91@gmail.com, janecollins171993@gmail.com, kehinde_jimoh@yahoo.co.uk"
-        }
+        subject: "Build Success",
+        body: "Build was successful",
+        to: "aroyewunbimbola@gmail.com"
+        )
         failure {
             echo ':x: Build Failed! Check logs for issues.'
         }
     }
+}
 }
